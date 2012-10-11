@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    #connection connection ID: ?
+    #count      count: 0
+    button#myButton   press me
+
+    script(type='text/javascript', src="/socket.io/socket.io.js")
+    script(type='text/javascript')
+      var socket = io.connect('http://localhost');
+
+      socket.on('connectionInfo', function (data) {
+        document.getElementById('connection').innerHTML = 'connection ID: ' + data.id;
+      });
+
+      socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+      });
+
+      document.getElementById('myButton').onclick = function (data) {
+        console.log(data);
+        socket.emit('press button', { from: 'me' });  
+      };
+
+      socket.on('button tally', function (data) {
+        console.log(data);
+        document.getElementById('myButton').innerHTML = 'count: ' + data.num;
+      });
