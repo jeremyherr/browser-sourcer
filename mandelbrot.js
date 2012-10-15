@@ -1,3 +1,8 @@
+/**
+ * calculates sum of all elements in 2-dimensional array
+ * @param {Array} arr a 2-dimensional array
+ * 
+ */
 function sumArray (arr) {
 
     var i, j, total = 0;
