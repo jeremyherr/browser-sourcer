@@ -16,7 +16,11 @@ function sumArray (arr) {
     return total;
 }
 
-function GraphBlock () {
+/**
+ * @class Represents one block of pixels to be calculated.
+ * 
+ */
+exports.GraphBlock = function () {
     "use strict";
     
     this.pixel = {'xMin': 0, 'xMax': 0, 'yMin': 0, 'yMax': 0};
@@ -24,6 +28,10 @@ function GraphBlock () {
 
 }
 
+/**
+ * @class Code to be run on server
+ * 
+ */
 function Server (options) {
     "use strict";
     var settings = {};
@@ -65,6 +73,11 @@ function Server (options) {
 	}
     };
 
+    /**
+     * Put the jobs (in this case, blocks of pixels) to be calculated into a 1-dimensional array.
+     *
+     *
+     */
     this.orderJobs = function () {
 	var i, j;
 
@@ -112,6 +125,10 @@ function Server (options) {
 
     };
 
+    /**
+     * Initialize server object
+     * 
+     */
     this.init = function () {
 	this.partitionCanvas();
 	this.orderJobs();
@@ -120,6 +137,11 @@ function Server (options) {
     this.init();
 }
 
+
+/**
+ * @class Code to be executed on client machines
+ * 
+ */
 function Client () {
 
     var settings = {pixelWidth: 1200, pixelHeight: 900};
@@ -197,94 +219,98 @@ function Client () {
     };
 }
 
-var canvas, ctx;
+(function (){
 
-window.onload = function () {
+    var canvas, ctx;
 
-    console.log('window.onload');
+    window.onload = function () {
 
-var s = new Server();
-var c = new Client();
+	console.log('window.onload');
 
-console.log(s.blockArray);
-console.log(s.blockArray.length);
-console.log(s.blockArray[0].length);
-
-document.getElementById('plot').width = 1200;
-document.getElementById('plot').height = 900;
-
-canvas = document.getElementById('plot');
-ctx = canvas.getContext("2d");
-
-    function callComputeBlock(i) {
-	console.log('inside callComputeBlock');
-	var f = function () {
-	    console.log('inside f, i: ' + i);
-	    c.computeBlock(s.jobList[i]);
-	};
-	return f;
-    }
-
-var i, k = 0;
-for (i = 0; i < s.jobList.length; i++, k++) {
-    //    setTimeout('c.computeBlock(s.jobList[' + i + '])', 100 * k);    
-    console.log('setTimeout: ' + 100 * k);
-    setTimeout(callComputeBlock(i), 100 * k);    
-}
-
-
-var canvasWidth  = window.innerWidth;
-var canvasHeight = window.innerHeight;
-};
-
-//canvasWidth  = 300;
-//canvasHeight = 200;
-
-/*
-xMin = -1;
-xMax =  -.5;
-yMin =  .6;
-yMax =  .1;
-
-xMin = -2.2;
-xMax =  0.7;
-yMin =  -1.3;
-yMax =  1.3;
-
-xMin = -1.05;
-xMax =  -.85;
-yMin =  .4;
-yMax =  .2;
-*/
-
-//var xPxl, yPxl;
-var pxl = {x: 0, y: 0};
-var pt = {x: 0, y: 0};
-var steps;
-
-/*
-for (pxl.x = 0; pxl.x < canvasWidth; pxl.x += 1) {
-    for (pxl.y = 0; pxl.y < canvasHeight; pxl.y = pxl.y + 1) {
-	pt.x = (pxl.x / canvasWidth) * (xMax - xMin) + xMin;
-	pt.y = (pxl.y / canvasHeight) * (yMax - yMin) + yMin;
-	steps = inMandelbrot(pt);
-	ctx.fillStyle = colormap(steps);
-	ctx.fillRect(pxl.x, pxl.y, 1, 1);
-
-    }
-}
-*/
-
-var xpxl, ypxl, xpt, ypt;
-
-/*
-for (xpxl = 0; xpxl < canvasWidth; xpxl += 1) {
-    for (ypxl = 0; ypxl < canvasHeight; ypxl = ypxl + 1) {
-	xpt = (xpxl / canvasWidth) * (xMax - xMin) + xMin;
-	ypt = (ypxl / canvasHeight) * (yMax - yMin) + yMin;
-	steps = inMandelbrot(xpt, ypt);
-	ctx.fillStyle = colormap(steps);
-	ctx.fillRect(xpxl, ypxl, 1, 1);	
-    }
-}
-*/
+	var s = new Server();
+	var c = new Client();
+	
+	console.log(s.blockArray);
+	console.log(s.blockArray.length);
+	console.log(s.blockArray[0].length);
+	
+	document.getElementById('plot').width = 1200;
+	document.getElementById('plot').height = 900;
+	
+	canvas = document.getElementById('plot');
+	ctx = canvas.getContext("2d");
+	
+	function callComputeBlock(i) {
+	    console.log('inside callComputeBlock');
+	    var f = function () {
+		console.log('inside f, i: ' + i);
+		c.computeBlock(s.jobList[i]);
+	    };
+	    return f;
+	}
+	
+	var i, k = 0;
+	for (i = 0; i < s.jobList.length; i++, k++) {
+	    //    setTimeout('c.computeBlock(s.jobList[' + i + '])', 100 * k);    
+	    console.log('setTimeout: ' + 100 * k);
+	    setTimeout(callComputeBlock(i), 100 * k);    
+	}
+	
+	
+	var canvasWidth  = window.innerWidth;
+	var canvasHeight = window.innerHeight;
+    };
+    
+    //canvasWidth  = 300;
+    //canvasHeight = 200;
+    
+    /*
+      xMin = -1;
+      xMax =  -.5;
+      yMin =  .6;
+      yMax =  .1;
+      
+      xMin = -2.2;
+      xMax =  0.7;
+      yMin =  -1.3;
+      yMax =  1.3;
+      
+      xMin = -1.05;
+      xMax =  -.85;
+      yMin =  .4;
+      yMax =  .2;
+    */
+    
+    //var xPxl, yPxl;
+    var pxl = {x: 0, y: 0};
+    var pt = {x: 0, y: 0};
+    var steps;
+    
+    /*
+      for (pxl.x = 0; pxl.x < canvasWidth; pxl.x += 1) {
+      for (pxl.y = 0; pxl.y < canvasHeight; pxl.y = pxl.y + 1) {
+      pt.x = (pxl.x / canvasWidth) * (xMax - xMin) + xMin;
+      pt.y = (pxl.y / canvasHeight) * (yMax - yMin) + yMin;
+      steps = inMandelbrot(pt);
+      ctx.fillStyle = colormap(steps);
+      ctx.fillRect(pxl.x, pxl.y, 1, 1);
+      
+      }
+      }
+    */
+    
+    var xpxl, ypxl, xpt, ypt;
+    
+    /*
+      for (xpxl = 0; xpxl < canvasWidth; xpxl += 1) {
+      for (ypxl = 0; ypxl < canvasHeight; ypxl = ypxl + 1) {
+      xpt = (xpxl / canvasWidth) * (xMax - xMin) + xMin;
+      ypt = (ypxl / canvasHeight) * (yMax - yMin) + yMin;
+      steps = inMandelbrot(xpt, ypt);
+      ctx.fillStyle = colormap(steps);
+      ctx.fillRect(xpxl, ypxl, 1, 1);	
+      }
+      }
+    */
+    
+});
