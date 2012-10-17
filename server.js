@@ -61,6 +61,7 @@ io.sockets.on('connection', function (socket) {
     listSockets.push(socket);
 
     socket.emit('news', { hello: 'world ' + mySession.id });
+
     socket.on('my other event', function (data) {
 	console.log(data);
     });
