@@ -1,0 +1,18 @@
+{
+  "name": "parallel-browsers",
+  "author": "Jeremy Herr <jeremy.herr@gmail.com>",
+  "version": "0.0.1",
+  "description": "platform for using browsers to act as workers for embarassingly parallel tasks",
+  "dependencies": {
+    "express":   "3.0.0rc5",
+    "jade":      "0.27.6",
+    "socket.io": "0.9.10"
+  },
+  "devDependencies": {
+    "jasmine-node": ""
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "0.8.9"
+  }
+}
