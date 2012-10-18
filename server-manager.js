@@ -7,10 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-, path = require('path');
-//  , io = require('socket.io').listen(server);
-
-//require('socket.io');
+  , path = require('path');
 
 var app = express();
 
@@ -31,8 +28,10 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/',           routes.index);
+app.get('/index',      routes.index);
+app.get('/mandelbrot', routes.mandelbrot);
+app.get('/users',      user.list);
 
 var ctrConnection = 0;
 var listSockets = [];
@@ -71,15 +70,3 @@ io.sockets.on('connection', function (socket) {
 	mySession.ctrButton++;
     });
 });
-
-
-
-
-/*
-server.listen(3000);
-
-app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/pages/index.jade');
-});
-*/
-
