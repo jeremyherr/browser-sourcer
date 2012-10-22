@@ -11,6 +11,11 @@ To install:
 > npm install
 
 
+To run jasmine BDD tests:
+
+> jasmin-node
+
+
 To run:
 
 > node server-manager
