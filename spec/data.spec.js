@@ -1,4 +1,4 @@
-var data = require('../prepare-data.js');
+var data = require('../data-blocks.js');
 
 describe("DataBlock2R1R constructor", function () {
 
