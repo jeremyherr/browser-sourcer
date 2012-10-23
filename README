@@ -11,11 +11,6 @@ To install:
 > npm install
 
 
-To run jasmine BDD tests:
-
-> jasmin-node
-
-
 To run:
 
 > node server-manager
@@ -26,3 +21,18 @@ To run:
 To view mandelbrot example:
 
 Point browser to http://localhost:3000/mandelbrot
+
+Development
+-----------
+
+To run jasmine BDD tests:
+
+> jasmine-node
+
+
+To generate documentation:
+
+TODO: put in JSDoc info here:
+
+> 
+

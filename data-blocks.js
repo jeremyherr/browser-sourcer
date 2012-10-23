@@ -11,12 +11,12 @@ function DataBlock2R1R(options) {
 		yCtr,
 		k,
 		defaults = {
-			xMin:   0,
-			xMax:   1,
-			xStep: 10,
-			yMin:   0,
-			yMax:   1,
-			yStep: 10
+			xMin:     0,
+			xMax:     1,
+			xPoints: 10,
+			yMin:     0,
+			yMax:     1,
+			yPoints:  10
 		};
 
 	this.parameters = common.extend(options, defaults);
@@ -27,9 +27,9 @@ function DataBlock2R1R(options) {
 	this.generateDomain = function () {
 		this.data = [];
 
-		for (xCtr = 0; xCtr < this.parameters.xStep; xCtr++) {
+		for (xCtr = 0; xCtr < this.parameters.xPoints; xCtr++) {
 			this.data[xCtr] = [];
-			for (yCtr = 0; yCtr < this.parameters.yStep; yCtr++) {
+			for (yCtr = 0; yCtr < this.parameters.yPoints; yCtr++) {
 				this.data[xCtr][yCtr] = 0;
 			}
 		}
@@ -47,7 +47,128 @@ function DataBlock2R1R(options) {
 
 }
 
-// If running in node.js, export constructor for use by require
+/**
+ * @class the whole set of data to be calculated
+ *
+ *
+ */
+function DataSet2R1R(options) {
+	"use strict";
+
+	var k,
+		defaults = {
+			xMin:          -2,
+			xMax:           2,
+			xPoints:     20,
+			yMin:          -2,
+			yMax:           2,
+			yPoints:     20,
+			xBlockPoints: 10,
+			yBlockPoints: 10,
+		};
+
+	this.parameters = common.extend(options, defaults);
+
+	this.jobList = [];
+
+	/**
+	 * Partition up the data set into a grid of block objects and store them in a 2-dimensional array this.jobGrid.
+	 */
+	this.generateJobGrid = function () {
+		var xCtr,
+			yCtr,
+			i,
+			j,
+			block,
+			p = this.parameters;
+
+		this.jobGrid = [];
+
+		for (xCtr = 0, i = 0; xCtr < p.xPoints; xCtr += p.xBlockPoints, i++) {
+			this.jobGrid[i] = [];
+			for (yCtr = 0, j = 0; yCtr < p.yPoints; yCtr += p.yBlockPoints, j++) {
+				block = new DataBlock2R1R({
+					xMin:    p.xMin + ((p.xMax - p.xMin) / p.xPoints) * xCtr,
+					xMax:    p.xMin + ((p.xMax - p.xMin) / p.xPoints) * (xCtr + 1),
+					xPoints: p.xBlockPoints,
+					yMin:    p.yMin + ((p.yMax - p.yMin) / p.yPoints) * yCtr,
+					yMax:    p.yMin + ((p.yMax - p.yMin) / p.yPoints) * (yCtr + 1),
+					yPoints: p.yBlockPoints
+				});
+
+				this.jobGrid[i][j] = block;
+			}
+		}
+	};
+
+	this.generateJobList = function () {
+
+	};
+
+	// copied this from mandelbrot.js, needs work
+    this.orderJobs = function () {
+    	var i, j;
+
+    /*
+    	for (i = 0; i < this.blockArray.length; i++) {
+    	    for (j = 0; j < this.blockArray[i].length; j++) {
+    		this.jobList.push(this.blockArray[i][j]);
+    	    }
+    	}
+    */
+
+    	var flagBlock = [];
+    	for (i = 0; i < this.blockArray.length; i++) {
+    	    flagBlock[i] = [];
+    	    for (j = 0; j < this.blockArray[i].length; j++) {
+    		flagBlock[i][j] = 0;
+    	    }
+    	}
+
+    	console.log('flagBlock');
+    	console.log(flagBlock);
+
+    	var rLimit = 1, r, theta, x, y;
+
+    	console.log('sumArray(this.blockArray):');
+    	console.log(sumArray(flagBlock));
+    	console.log('size of blockArray:');
+    	console.log(this.blockArray.length * this.blockArray[0].length);
+
+    	while (sumArray(flagBlock) < this.blockArray.length * this.blockArray[0].length) {
+    	    r     = Math.random() * rLimit;
+    	    theta = Math.random() * (Math.PI / 2);
+    	    x     = Math.floor(r * Math.cos(theta));
+    	    y     = Math.floor(r * Math.sin(theta));
+
+    	    rLimit += 0.01;
+
+    	    if (x < this.blockArray.length && y < this.blockArray[0].length && ! flagBlock[x][y]) {
+    			flagBlock[x][y] = 1;
+    			this.jobList.push(this.blockArray[x][y]);
+    	    }
+
+    	}
+
+
+    };
+
+    this.getNumPoints = function () {
+
+    };
+
+    this.getNumBlocks = function () {
+
+    };
+
+    this.getNumCalculations = function () {
+
+    };
+
+}
+
+//If running in node.js, export constructor for use by require
 if (typeof (exports) === 'object') {
 	exports.DataBlock2R1R = DataBlock2R1R;
+	exports.DataSet2R1R   = DataSet2R1R;
 }
