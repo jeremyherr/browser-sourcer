@@ -1,3 +1,5 @@
+var common = require('./common.js');
+
 /**
  * @class data block for holding a regular grid of points, with domain 2D real and range 1D real
  * @param {Object} an object containing xMin, xMax, xStep, yMin, yMax, yStep
@@ -17,14 +19,7 @@ function DataBlock2R1R(options) {
 			yStep: 10
 		};
 
-	this.parameters = {};
-
-	// Populate parameters with defaults keys, overwriting values with given options (shallow copy)
-	for (k in defaults) {
-		if (defaults.hasOwnProperty(k)) {
-			this.parameters[k] = options[k];
-		}
-	}
+	this.parameters = common.extend(options, defaults);
 
 	/**
 	 * Create 2-dimensional array full of zeros. The zeros are to be replaced with 1-dimensional output later.
