@@ -19,7 +19,7 @@ function DataBlock2R1R(options) {
 
 	this.parameters = {};
 
-	// Populate parameters with defaults keys, overwriting values with given options
+	// Populate parameters with defaults keys, overwriting values with given options (shallow copy)
 	for (k in defaults) {
 		if (defaults.hasOwnProperty(k)) {
 			this.parameters[k] = options[k];

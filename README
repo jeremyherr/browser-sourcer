@@ -25,4 +25,4 @@ To run:
 
 To view mandelbrot example:
 
-Point browser to http://localhost/mandelbrot:3000
+Point browser to http://localhost:3000/mandelbrot
