@@ -59,12 +59,12 @@ function DataSet2R1R(options) {
 		defaults = {
 			xMin:          -2,
 			xMax:           2,
-			xPoints:     20,
+			xPoints:     1000,
 			yMin:          -2,
 			yMax:           2,
-			yPoints:     20,
-			xBlockPoints: 10,
-			yBlockPoints: 10,
+			yPoints:     1000,
+			xBlockPoints: 100,
+			yBlockPoints: 100,
 		};
 
 	this.parameters = common.extend(options, defaults);
