@@ -21,6 +21,16 @@ function DataBlock2R1R(options) {
 
 	this.parameters = common.extend(options, defaults);
 
+	// total number of iterations through mandelbrot calculation loop for all points in block.
+	this.numCalculations = 0;
+
+	// unique ID for this block, so that server-manager can tell worker node which block to request
+	this.ID = '';
+
+	// key passed to worker node, giving it permission to calculate data for this block.
+	// This key will be reset every time it is assigned to a new worker node.
+	this.processingID = '';
+
 	/**
 	 * Create 2-dimensional array full of zeros. The zeros are to be replaced with 1-dimensional output later.
 	 */
@@ -36,12 +46,23 @@ function DataBlock2R1R(options) {
 	};
 
 	/**
+	 * Generate a unique key for the processing of this block of data.
+	 */
+	this.generateProcessingID = function () {
+		// TODO: do something slightly clever here
+		var d = new Date();
+		this.processingID = d.toString() + ' ' + Math.floor(Math.random() * 1e+12);
+	};
+
+	/**
 	 * Create data object for conversion to JSON
 	 */
 	this.toJSON = function () {
 		return ({
-			'parameters': this.parameters,
-			'data':       this.data
+			'parameters':      this.parameters,
+			'data':            this.data,
+			'processingID':    this.processingID,
+			'numCalculations': this.numCalculations
 		});
 	};
 

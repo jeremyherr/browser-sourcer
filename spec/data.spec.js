@@ -22,10 +22,23 @@ describe("DataBlock2R1R constructor", function () {
     });
 
     it("initializes data range values to 0", function () {
+    	var i, j;
+
     	b.generateDomain();
 
-    	expect(b.data[0][0]).toBe(0);
-    	expect(b.data[9][9]).toBe(0);
+    	for (i = 0; i < 10; i++) {
+    		for (j = 0; j < 10; j++) {
+    			expect(b.data[i][j]).toBe(0);
+    		}
+    	}
+    });
+
+    it("calculates a unique secret key", function () {
+    	b.generateProcessingID();
+
+    	expect(typeof (b.processingID)).toBe('string');
+    	expect(b.processingID).not.toBe('');
+    	expect(b.processingID.length).toBe(52);
     });
 
 });
