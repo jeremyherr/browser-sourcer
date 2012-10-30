@@ -1,12 +1,11 @@
-
-/*
- * GET home page.
- */
-
 exports.index = function (req, res) {
-    res.render('index', { title: 'Parallel Browsers' });
+    res.render('index', { title: 'Home' });
+};
+
+exports.admin = function (req, res) {
+	res.render('admin', { title: 'Admin' });
 };
 
 exports.mandelbrot = function (req, res) {
-  res.render('mandelbrot', { title: 'Parallel Browsers - Mandelbrot Demo' });
+	res.render('mandelbrot', { title: 'Mandelbrot Demo' });
 };

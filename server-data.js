@@ -3,11 +3,11 @@
  *
  */
 
-var express = require('express'), 
+var express = require('express'),
     routes  = require('./routes'),
-    user    = require('./routes/user'),
     http    = require('http'),
-    path    = require('path');
+    path    = require('path'),
+    data    = require('./data-blocks.js');
 
 var app = express();
 
@@ -28,7 +28,20 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-//app.get('/data', routes.data);
+var d = new data.DataSet2R1R ({
+	xMin:          -2,
+	xMax:           2,
+	xPoints:       10,
+	yMin:          -2,
+	yMax:           2,
+	yPoints:       10,
+	xBlockPoints:   2,
+	yBlockPoints:   2
+});
+
+d.generateJobGrid();
+
+d.generateJobList();
 
 var ctrConnection = 0;
 var listSockets = [];

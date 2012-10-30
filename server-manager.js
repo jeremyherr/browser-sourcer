@@ -28,13 +28,15 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+// URL mappings
 app.get('/',           routes.index);
 app.get('/index',      routes.index);
+app.get('/admin',      routes.admin);
 app.get('/mandelbrot', routes.mandelbrot);
-app.get('/users',      user.list);
 
 var ctrConnection = 0;
 var listSockets = [];
+var ctr = 0;
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
@@ -46,10 +48,10 @@ io.sockets.on('connection', function (socket) {
 
     var d = new Date();
     var mySession = {
-	start:     d,
-	host:      socket.remoteAddress,
-	id:        ctrConnection++,
-	ctrButton: 0
+		start:     d,
+		host:      socket.remoteAddress,
+		id:        ctrConnection++,
+		ctrButton: 0
     };
 
     socket.emit('connectionInfo', mySession);
@@ -62,11 +64,15 @@ io.sockets.on('connection', function (socket) {
     socket.emit('news', { hello: 'world ' + mySession.id });
 
     socket.on('my other event', function (data) {
-	console.log(data);
+		console.log(data);
     });
 
     socket.on('press button', function (data) {
-	socket.emit('button tally', {num: mySession.ctrButton});
-	mySession.ctrButton++;
+		socket.emit('button tally', {num: mySession.ctrButton});
+		mySession.ctrButton++;
+    });
+
+    socket.on('request data', function (data) {
+    	socket.emit('data', d.JobList[ctr++]);
     });
 });
