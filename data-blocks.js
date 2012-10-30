@@ -1,4 +1,24 @@
-var common = require('./common.js');
+var common = require('./common.js'),
+	util   = require('util');
+
+var idCtr = new IDCtr();
+
+/**
+ * @class global counter for assigning unique IDs to every block.
+ */
+function IDCtr() {
+	"use strict";
+
+	var ctr = 0;
+
+	/**
+	 * simply increment and return counter
+	 */
+	this.getId = function () {
+		ctr += 1;
+		return ctr;
+	};
+}
 
 /**
  * @class data block for holding a regular grid of points, with domain 2D real and range 1D real
@@ -21,7 +41,7 @@ function DataBlock2R1R(options) {
 
 	this.parameters = common.extend(options, defaults);
 
-	// total number of iterations through mandelbrot calculation loop for all points in block.
+	// total number of iterations through calculation loop for all points in block.
 	this.numCalculations = 0;
 
 	// unique ID for this block, so that server-manager can tell worker node which block to request
@@ -49,9 +69,9 @@ function DataBlock2R1R(options) {
 	 * Generate a unique key for the processing of this block of data.
 	 */
 	this.generateProcessingID = function () {
-		// TODO: do something slightly clever here
 		var d = new Date();
-		this.processingID = d.toString() + ' ' + Math.floor(Math.random() * 1e+12);
+		// pad with zeros to get two 16-digit numbers, first is num seconds since epoch, second is random
+		this.processingID = ('0000000000000000' + d.getTime()).slice(-16) + '_' + ('0000000000000000' + Math.floor(Math.random() * 1e+15)).slice(-16);
 	};
 
 	/**
@@ -90,8 +110,6 @@ function DataSet2R1R(options) {
 
 	this.parameters = common.extend(options, defaults);
 
-	this.jobList = [];
-
 	/**
 	 * Partition up the data set into a grid of block objects and store them in a 2-dimensional array this.jobGrid.
 	 */
@@ -117,26 +135,35 @@ function DataSet2R1R(options) {
 					yPoints: p.yBlockPoints
 				});
 
+				block.ID = idCtr.getId();
+
 				this.jobGrid[i][j] = block;
 			}
 		}
 	};
 
+	/**
+	 * Order the grid of blocks into a 1-dimensional array. Jobs will be handed off to worker nodes in this order.
+	 */
 	this.generateJobList = function () {
+		var i,
+			j;
+
+		this.jobList = [];
+
+		// boring line by line method
+		// TODO: spiral outwards, scattering as you go
+    	for (i = 0; i < this.jobGrid.length; i++) {
+    	    for (j = 0; j < this.jobGrid[i].length; j++) {
+    	    	this.jobList.push(this.jobGrid[i][j].ID);
+    	    }
+    	}
 
 	};
 
 	// copied this from mandelbrot.js, needs work
     this.orderJobs = function () {
     	var i, j;
-
-    /*
-    	for (i = 0; i < this.blockArray.length; i++) {
-    	    for (j = 0; j < this.blockArray[i].length; j++) {
-    		this.jobList.push(this.blockArray[i][j]);
-    	    }
-    	}
-    */
 
     	var flagBlock = [];
     	for (i = 0; i < this.blockArray.length; i++) {
@@ -174,14 +201,24 @@ function DataSet2R1R(options) {
 
     };
 
+
+	/**
+	 *
+	 */
     this.getNumPoints = function () {
 
     };
 
+	/**
+	 *
+	 */
     this.getNumBlocks = function () {
 
     };
 
+	/**
+	 * Get the total number of calculations in all blocks
+	 */
     this.getNumCalculations = function () {
 
     };

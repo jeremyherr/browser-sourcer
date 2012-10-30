@@ -36,9 +36,11 @@ describe("DataBlock2R1R constructor", function () {
     it("calculates a unique secret key", function () {
     	b.generateProcessingID();
 
-    	expect(typeof (b.processingID)).toBe('string');
+    	expect(b.processingID).toBeDefined();
+    	expect(b.processingID).toEqual(jasmine.any(String));
     	expect(b.processingID).not.toBe('');
-    	expect(b.processingID.length).toBe(52);
+    	expect(b.processingID.length).toBe(33);
+    	expect(b.processingID).toMatch(/^\d{16}_\d{16}$/);
     });
 
 });
@@ -53,7 +55,15 @@ describe("DataSet2R1R constructor", function () {
 		yMax:           0.7,
 		yPoints:        900,
 		xBlockPoints:    70,
-		yBlockPoints:    60,
+		yBlockPoints:    60
+//		xMin:          -2,
+//		xMax:           2,
+//		xPoints:       10,
+//		yMin:          -2,
+//		yMax:           2,
+//		yPoints:       10,
+//		xBlockPoints:   2,
+//		yBlockPoints:   2
 	});
 
     it("initializes parameters as specified", function () {
@@ -70,9 +80,21 @@ describe("DataSet2R1R constructor", function () {
     it("generates job grid", function () {
     	d.generateJobGrid();
 
-    	TODO: test that the right number of blocks has been created, etc
-//    	console.log(d.jobGrid);
-
+    	// TODO: test that the right number of blocks has been created, elements in grid are block objects, etc
+    	expect(d.jobGrid[0].length).toBe(15);
+    	expect(d.jobGrid[0][0]).toEqual(jasmine.any(data.DataBlock2R1R));
     });
 
+    it("generates job list", function () {
+    	var i;
+
+    	d.generateJobList();
+
+    	expect(d.jobList.length).toBe(270);
+
+    	for (i = 0; i < d.jobList.length; i++) {
+    		expect(d.jobList[i]).toEqual(jasmine.any(Number));
+    	}
+
+    });
 });
