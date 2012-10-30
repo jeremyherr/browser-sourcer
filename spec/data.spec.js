@@ -1,8 +1,8 @@
 var data = require('../data-blocks.js');
 
-describe("DataBlock2R1R constructor", function () {
+describe("DataBlockR2R1 constructor", function () {
 
-	var b = new data.DataBlock2R1R ({
+	var b = new data.DataBlockR2R1 ({
 		xMin:  -0.5,
 		xMax:   0.5,
 		xPoints: 10,
@@ -45,9 +45,9 @@ describe("DataBlock2R1R constructor", function () {
 
 });
 
-describe("DataSet2R1R constructor", function () {
+describe("DataSetR2R1 constructor", function () {
 
-	var d = new data.DataSet2R1R ({
+	var d = new data.DataSetR2R1 ({
 		xMin:          -1.3,
 		xMax:           0.6,
 		xPoints:       1200,
@@ -82,7 +82,7 @@ describe("DataSet2R1R constructor", function () {
 
     	// TODO: test that the right number of blocks has been created, elements in grid are block objects, etc
     	expect(d.jobGrid[0].length).toBe(15);
-    	expect(d.jobGrid[0][0]).toEqual(jasmine.any(data.DataBlock2R1R));
+    	expect(d.jobGrid[0][0]).toEqual(jasmine.any(data.DataBlockR2R1));
     });
 
     it("generates job list", function () {

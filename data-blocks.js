@@ -24,7 +24,7 @@ function IDCtr() {
  * @class data block for holding a regular grid of points, with domain 2D real and range 1D real
  * @param {Object} an object containing xMin, xMax, xStep, yMin, yMax, yStep
  */
-function DataBlock2R1R(options) {
+function DataBlockR2R1(options) {
 	"use strict";
 
 	var xCtr,
@@ -93,7 +93,7 @@ function DataBlock2R1R(options) {
  *
  *
  */
-function DataSet2R1R(options) {
+function DataSetR2R1(options) {
 	"use strict";
 
 	var k,
@@ -126,7 +126,7 @@ function DataSet2R1R(options) {
 		for (xCtr = 0, i = 0; xCtr < p.xPoints; xCtr += p.xBlockPoints, i++) {
 			this.jobGrid[i] = [];
 			for (yCtr = 0, j = 0; yCtr < p.yPoints; yCtr += p.yBlockPoints, j++) {
-				block = new DataBlock2R1R({
+				block = new DataBlockR2R1({
 					xMin:    p.xMin + ((p.xMax - p.xMin) / p.xPoints) * xCtr,
 					xMax:    p.xMin + ((p.xMax - p.xMin) / p.xPoints) * (xCtr + 1),
 					xPoints: p.xBlockPoints,
@@ -227,6 +227,6 @@ function DataSet2R1R(options) {
 
 //If running in node.js, export constructor for use by require
 if (typeof (exports) === 'object') {
-	exports.DataBlock2R1R = DataBlock2R1R;
-	exports.DataSet2R1R   = DataSet2R1R;
+	exports.DataBlockR2R1 = DataBlockR2R1;
+	exports.DataSetR2R1   = DataSetR2R1;
 }

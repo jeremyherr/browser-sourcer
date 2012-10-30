@@ -28,7 +28,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-var d = new data.DataSet2R1R ({
+var d = new data.DataSetR2R1 ({
 	xMin:          -2,
 	xMax:           2,
 	xPoints:       10,
