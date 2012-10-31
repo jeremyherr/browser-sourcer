@@ -1,7 +1,10 @@
 doctype 5
 html
-  head
-    title browser-sourcer - #{title}
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+	head
+		title browser-sourcer - #{title}
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		if title == 'Admin'
+			link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+
+	body
+		block content
