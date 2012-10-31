@@ -1,12 +1,41 @@
 extends layout
 
 block content
-	h1 Admin Interface
+	div.row-fluid
+		div.span12
+			h1 Admin Interface
 
-	p This is where the admin can restart a project
+	div.row-fluid
+		div.span2
+		div.span3
+			div.input-block
+				label(for='mandelbrot-parameters-xmin') x min:
+				input(id='mandelbrot-parameters-xmin', type='text').required
+			div.input-block
+				label(for='mandelbrot-parameters-xmax') x max:
+				input(id='mandelbrot-parameters-xmax', type='text').required
+			div.input-block
+				label(for='mandelbrot-parameters-xpoints') number of x points:
+				input(id='mandelbrot-parameters-xpoints', type='text').required
+		div.span3
+			div.input-block
+				label(for='mandelbrot-parameters-ymin') y min:
+				input(id='mandelbrot-parameters-ymin', type='text').required
+			div.input-block
+				label(for='mandelbrot-parameters-ymax') y max:
+				input(id='mandelbrot-parameters-ymax', type='text').required
+			div.input-block
+				label(for='mandelbrot-parameters-ypoints') number of y points:
+				input(id='mandelbrot-parameters-ypoints', type='text').required
+		div.span2
 
-	p Need password protection
+	div.row-fluid.below-form
+		div.span2
+		div.span8
+			div#mandelbrot-start.project-start-button.btn.btn-large Start Mandelbrot Project
+		div.span2
 
-	div.btn.btn-large Start Mandelbrot Project
+	p Note: need password protection
 
 	script(type='text/javascript', src="/socket.io/socket.io.js")
+	script(type='text/javascript', src="/javascripts/admin.js")
