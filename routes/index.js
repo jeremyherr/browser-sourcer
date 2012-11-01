@@ -3,9 +3,16 @@ exports.index = function (req, res) {
 };
 
 exports.admin = function (req, res) {
-	res.render('admin', { title: 'Admin' });
+	var project = require('../project.js');
+	p = new project.Project(); // just use constructor defaults for now
+
+	res.render('admin', {
+		title: 'Admin',
+		project: JSON.stringify(p)
+	});
+
 };
 
 exports.mandelbrot = function (req, res) {
-	res.render('mandelbrot', { title: 'Mandelbrot Demo' });
+	res.render('mandelbrot', { title: 'Mandelbrot Demo'});
 };
