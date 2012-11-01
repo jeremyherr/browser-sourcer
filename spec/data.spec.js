@@ -2,16 +2,30 @@ var data = require('../data-blocks.js');
 
 describe("DataBlockR2R1 constructor", function () {
 
-	var b = new data.DataBlockR2R1 ({
-		xMin:  -0.5,
-		xMax:   0.5,
-		xPoints: 10,
-		yMin:   1.0,
-		yMax:   2.0,
-		yPoints: 10
+	var bNoOptions,
+		b;
+
+	it("uses default settings when no options provided", function () {
+		bNoOptions = new data.DataBlockR2R1();
+
+		expect(bNoOptions.parameters.xMin   ).toBe( 0);
+		expect(bNoOptions.parameters.xMax   ).toBe( 1);
+		expect(bNoOptions.parameters.xPoints).toBe(10);
+		expect(bNoOptions.parameters.yMin   ).toBe( 0);
+		expect(bNoOptions.parameters.yMax   ).toBe( 1);
+		expect(bNoOptions.parameters.yPoints).toBe(10);
 	});
 
     it("initializes parameters as specified", function () {
+    	b = new data.DataBlockR2R1({
+    		xMin:  -0.5,
+    		xMax:   0.5,
+    		xPoints: 10,
+    		yMin:   1.0,
+    		yMax:   2.0,
+    		yPoints: 10
+    	});
+
     	expect(b.parameters.xMin   ).toBe(-0.5);
     	expect(b.parameters.xMax   ).toBe( 0.5);
     	expect(b.parameters.xPoints).toBe(10);
@@ -47,26 +61,43 @@ describe("DataBlockR2R1 constructor", function () {
 
 describe("DataSetR2R1 constructor", function () {
 
-	var d = new data.DataSetR2R1 ({
-		xMin:          -1.3,
-		xMax:           0.6,
-		xPoints:       1200,
-		yMin:          -0.5,
-		yMax:           0.7,
-		yPoints:        900,
-		xBlockPoints:    70,
-		yBlockPoints:    60
-//		xMin:          -2,
-//		xMax:           2,
-//		xPoints:       10,
-//		yMin:          -2,
-//		yMax:           2,
-//		yPoints:       10,
-//		xBlockPoints:   2,
-//		yBlockPoints:   2
+	var d,
+		dNoOptions;
+
+	it("uses default settings when no options provided", function () {
+		dNoOptions = new data.DataSetR2R1();
+
+		expect(dNoOptions.parameters.xMin        ).toBe(  -2);
+		expect(dNoOptions.parameters.xMax        ).toBe(   2);
+		expect(dNoOptions.parameters.xPoints     ).toBe(1000);
+		expect(dNoOptions.parameters.yMin        ).toBe(  -2);
+		expect(dNoOptions.parameters.yMax        ).toBe(   2);
+		expect(dNoOptions.parameters.yPoints     ).toBe(1000);
+		expect(dNoOptions.parameters.xBlockPoints).toBe( 100);
+		expect(dNoOptions.parameters.yBlockPoints).toBe( 100);
+
 	});
 
     it("initializes parameters as specified", function () {
+    	d = new data.DataSetR2R1 ({
+    		xMin:          -1.3,
+    		xMax:           0.6,
+    		xPoints:       1200,
+    		yMin:          -0.5,
+    		yMax:           0.7,
+    		yPoints:        900,
+    		xBlockPoints:    70,
+    		yBlockPoints:    60
+//    		xMin:          -2,
+//    		xMax:           2,
+//    		xPoints:       10,
+//    		yMin:          -2,
+//    		yMax:           2,
+//    		yPoints:       10,
+//    		xBlockPoints:   2,
+//    		yBlockPoints:   2
+    	});
+
     	expect(d.parameters.xMin        ).toBe(  -1.3);
     	expect(d.parameters.xMax        ).toBe(   0.6);
     	expect(d.parameters.xPoints     ).toBe(1200);

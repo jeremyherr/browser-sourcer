@@ -1,5 +1,4 @@
-var common = require('./common.js'),
-	util   = require('util');
+var common = require('./common.js');
 
 var idCtr = new IDCtr();
 
