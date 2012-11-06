@@ -58,6 +58,12 @@ io.sockets.on('connection', function (socket) {
 
     socket.emit('status', { status: 'ready' });
 
+    // need to make sure this command comes from an authorized server
+    socket.on('start project', function (data) {
+    	console.log('received command: start project');
+    	console.log(data);
+    });
+
     socket.on('request data', function (data) {
 	console.log('request for data');
 	console.log(data);

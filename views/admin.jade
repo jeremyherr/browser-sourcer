@@ -5,39 +5,51 @@ block content
 		div.span12
 			h1 Admin Interface
 
-	div.row-fluid
-		div.span2
-		div.span3
-			div.input-block
-				label(for='mandelbrot-parameters-xmin') x min:
-				input(id='mandelbrot-parameters-xmin', type='text').required
-			div.input-block
-				label(for='mandelbrot-parameters-xmax') x max:
-				input(id='mandelbrot-parameters-xmax', type='text').required
-			div.input-block
-				label(for='mandelbrot-parameters-xpoints') number of x points:
-				input(id='mandelbrot-parameters-xpoints', type='text').required
-		div.span3
-			div.input-block
-				label(for='mandelbrot-parameters-ymin') y min:
-				input(id='mandelbrot-parameters-ymin', type='text').required
-			div.input-block
-				label(for='mandelbrot-parameters-ymax') y max:
-				input(id='mandelbrot-parameters-ymax', type='text').required
-			div.input-block
-				label(for='mandelbrot-parameters-ypoints') number of y points:
-				input(id='mandelbrot-parameters-ypoints', type='text').required
-		div.span2
 
-	div.row-fluid.below-form
-		div.span2
-		div.span8
-			div#mandelbrot-start.project-start-button.btn.btn-large Start Mandelbrot Project
-		div.span2
+	form(action='/admin', method='post', enctype='application/json')
+		div.row-fluid
+			div.span2
+			div.span3
+				div.input-block
+					label(for='project-name') Project name:
+					input(name='project-name', id='project-name', type='text', value='#{projectName}').required
+			div.span3
+				div.input-block
+					label(for='project-dataset-constructor') Data Set Constructor:
+					input(name='project-dataset-constructor', id='project-dataset-constructor', type='text', value='#{projectConstructor}').required
+			div.span2
+
+		div.row-fluid
+			div.span2
+			div.span3
+				div.input-block
+					label(for='project-parameters-xmin') x min:
+					input(name='project-parameters-xmin', id='project-parameters-xmin', type='text', value='#{projectXMin}').required
+				div.input-block
+					label(for='project-parameters-xmax') x max:
+					input(name='project-parameters-xmax', id='project-parameters-xmax', type='text', value='#{projectXMax}').required
+				div.input-block
+					label(for='project-parameters-xpoints') number of x points:
+					input(name='project-parameters-xpoints', id='project-parameters-xpoints', type='text', value='#{projectXPoints}').required
+			div.span3
+				div.input-block
+					label(for='project-parameters-ymin') y min:
+					input(name='project-parameters-ymin', id='project-parameters-ymin', type='text', value='#{projectYMin}').required
+				div.input-block
+					label(for='project-parameters-ymax') y max:
+					input(name='project-parameters-ymax', id='project-parameters-ymax', type='text', value='#{projectYMax}').required
+				div.input-block
+					label(for='project-parameters-ypoints') number of y points:
+					input(name='project-parameters-ypoints', id='project-parameters-ypoints', type='text', value='#{projectYPoints}').required
+			div.span2
+
+		div.row-fluid.below-form
+			div.span2
+			div.span8
+				input#project-start.project-start-button.btn.btn-large(type='submit', value='Start Mandelbrot Project')
+			div.span2
 
 	p Note: need password protection
 
 	script(type='text/javascript', src="/socket.io/socket.io.js")
 	script(type='text/javascript', src="/javascripts/admin.js")
-	script(type='text/javascript')
-		console.log(!{project});

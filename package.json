@@ -1,12 +1,13 @@
 {
-  "name": "parallel-browsers",
+  "name": "browser-sourcer",
   "author": "Jeremy Herr <jeremy.herr@gmail.com>",
   "version": "0.0.1",
-  "description": "platform for using browsers to act as workers for embarassingly parallel tasks",
+  "description": "A parallel computing batch system using web browsers as worker nodes",
   "dependencies": {
-    "express":   "3.0.0rc5",
-    "jade":      "0.27.6",
-    "socket.io": "0.9.10"
+    "express":          "3.0.0rc5",
+    "jade":             "0.27.6",
+    "socket.io":        "0.9.10",
+    "socket.io-client": "0.9.11"
   },
   "devDependencies": {
     "jasmine-node": ""
